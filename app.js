@@ -34,7 +34,6 @@ const shiny = async () => {
   let data = await fetch(requestString);
 
   let response = await data.json();
-
   image.src = response.sprites.front_shiny;
   pokeName.innerHTML = response.name;
   pokeNumber.innerHTML = `# ${response.id}`;
