@@ -1,26 +1,21 @@
-let buttom = document.getElementById("search-btn");
-let image = document.getElementById("main-screen");
-let imageShiny = document.getElementById("big-button");
-
-let pokeName = document.getElementById("name-screen");
-let pokeNumber = document.getElementById("id-screen");
-let type = document.getElementById("type-screen");
-let aboutScreen = document.getElementById("about-screen");
-
-let form = document.querySelector(".form");
-
-let search = document.getElementById("search");
+const buttom = document.getElementById("search-btn");
+const image = document.getElementById("main-screen");
+const imageShiny = document.getElementById("big-button");
+const pokeName = document.getElementById("name-screen");
+const pokeNumber = document.getElementById("id-screen");
+const type = document.getElementById("type-screen");
+const aboutScreen = document.getElementById("about-screen");
+const form = document.querySelector(".form");
+const btnPrev = document.querySelector(".btn-prev");
+const btnNext = document.querySelector(".btn-next");
+const search = document.getElementById("search");
+let searchPokemon = 1;
 
 const changePokemon = async () => {
   let randomNumber = Math.ceil(Math.random() * 649) + 1;
-
   let requestString = `https://pokeapi.co/api/v2/pokemon/${randomNumber}`;
-
   let data = await fetch(requestString);
-
   let response = await data.json();
-
-  //console.log(response);
   image.src =
     response["sprites"]["versions"]["generation-v"]["black-white"]["animated"][
       "front_default"
@@ -57,7 +52,7 @@ const shiny = async () => {
 
 const fetchPokemon = async (pokemon) => {
   const APIresponse = await fetch(
-    `https://pokeapi.co/api/v2/pokemon/${pokemon.toLowerCase()}`
+    `https://pokeapi.co/api/v2/pokemon/${pokemon}`
   );
 
   if (APIresponse.status === 200) {
@@ -74,18 +69,22 @@ const renderPokemon = async (pokemon) => {
   const data = await fetchPokemon(pokemon);
 
   if (data) {
+    searchPokemon = data.id;
+    pokeName.innerHTML = data.name;
     image.src =
       data["sprites"]["versions"]["generation-v"]["black-white"]["animated"][
         "front_default"
       ];
-    pokeName.innerHTML = data.name;
     pokeNumber.innerHTML = `# ${data.id}`;
     type.textContent = data.types[0].type.name;
     aboutScreen.innerHTML = `Height: ${data.height * 10}cm Weight: ${
       data.weight / 10
     }kg`;
-    console.log(data);
+    /* search.value = ""; */
+    console.log(searchPokemon);
   } else {
+    image.src = "img/oldman.png";
+
     pokeName.innerHTML = "Not found";
     pokeNumber.innerHTML = `Not found`;
     type.textContent = "Not found";
@@ -95,8 +94,19 @@ const renderPokemon = async (pokemon) => {
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
-  console.log(search.value);
-  renderPokemon(search.value);
+  renderPokemon(search.value.toLowerCase());
+});
+
+btnNext.addEventListener("click", () => {
+  searchPokemon += 1;
+  renderPokemon(searchPokemon);
+});
+
+btnPrev.addEventListener("click", () => {
+  if (searchPokemon > 1) {
+    searchPokemon -= 1;
+    renderPokemon(searchPokemon);
+  }
 });
 
 changePokemon();
