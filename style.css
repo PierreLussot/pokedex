@@ -527,6 +527,66 @@ input {
   justify-content: center;
   align-items: center;
 }
+.search {
+  z-index: 22222;
+}
+
+.containerButtons {
+  width: 400px;
+  justify-content: space-around;
+  display: flex;
+}
+
+button {
+  display: inline-block;
+  width: 100px;
+  height: 25px;
+  border-radius: 10px;
+  border: 1px solid #ffffff;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.5s ease-in;
+  z-index: 1;
+}
+
+button::before,
+button::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 0;
+  height: 100%;
+  transform: skew(15deg);
+  transition: all 0.5s;
+  overflow: hidden;
+  z-index: -1;
+}
+
+button::before {
+  left: -7px;
+  background: #ff0000;
+}
+
+button::after {
+  right: -10px;
+  background: #fffefe;
+}
+
+button:hover::before,
+button:hover::after {
+  width: 58%;
+}
+
+button:hover span {
+  color: #000000;
+  transition: 0.3s;
+}
+
+button span {
+  color: #f80505;
+  font-size: 18px;
+  transition: all 0.3s ease-in;
+}
 
 .blue-squares-container {
   width: 146px;
@@ -538,7 +598,7 @@ input {
 
 .blue-square {
   border-radius: 2px;
-  border: black 1.5px solid;
+  border: rgb(255, 255, 255) 1.5px solid;
   background-color: var(--square-buttons-color);
   box-shadow: inset -2px -2px #3298cb;
 }
