@@ -30,11 +30,8 @@ const changePokemon = async () => {
 
 const shiny = async () => {
   let randomNumber = Math.ceil(Math.random() * 150) + 1;
-
   let requestString = `https://pokeapi.co/api/v2/pokemon/${randomNumber}`;
-
   let data = await fetch(requestString);
-
   let response = await data.json();
   image.src =
     response["sprites"]["versions"]["generation-v"]["black-white"]["animated"][
@@ -92,7 +89,8 @@ const renderPokemon = async (pokemon) => {
   }
 };
 
-form.addEventListener("submit", (e) => {
+form.addEventListener("input", (e) => {
+  console.log(e);
   e.preventDefault();
   renderPokemon(search.value.toLowerCase());
 });
